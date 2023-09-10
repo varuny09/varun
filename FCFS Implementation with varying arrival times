@@ -1,0 +1,55 @@
+FCFS Implementation with varying arrival times
+#include<iostream>
+using namespace std;
+ 
+void find_Waiting_Time(int process[], int n, int b_t[], int w_t[])
+{
+   	 
+    	w_t[0] = 0;
+ 	
+    	for (int  x = 1; x < n ; x++ )
+        	w_t[x] =  b_t[x-1] + w_t[x-1] ;
+}
+ 
+
+void find_TurnAround_Time( int process[], int n, int b_t[], int w_t[], int ta_t[])
+{
+    	
+    	for (int x = 0; x < n ; x++)
+        	ta_t[x] = b_t[x] + w_t[x];
+}
+ 
+
+void find_avg_Time( int process[], int n, int b_t[])
+{
+    	int w_t[n], ta_t[n], wt_total = 0, tat_total = 0;
+
+    	find_Waiting_Time(process, n, b_t, w_t);
+   	find_TurnAround_Time(process, n, b_t, w_t, ta_t);
+ 
+    	cout << "Processes  "<< " Burst time  "
+         	<< " Waiting time  " << " Turn around time\n";
+    	for (int  x=0; x<n; x++)
+    	{
+        		wt_total = wt_total + w_t[x];
+        		tat_total = tat_total + ta_t[x];
+        		cout << "   " << x+1 << "\t\t" << b_t[x] <<"\t    "
+            	<< w_t[x] <<"\t\t  " << ta_t[x] <<endl;
+    	}
+ 
+    	cout << "Average waiting time = "
+         	<< (float)wt_total / (float)n;
+    	cout << "\nAverage turn around time = "
+         	<< (float)tat_total / (float)n;
+}
+ 
+int main()
+{
+    	
+    	int process[] = { 1, 2, 3};
+    	int n = sizeof process / sizeof process[0];
+ 	
+    	int  burst_time[] = {10, 5, 8};
+ 	find_avg_Time(process, n,  burst_time);
+    	return 0;
+}
